@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     dirs = glob.glob("{}/*".format(args.inputdir))
-    list_of_subdirs = [] #subdirs and files should have the same l
+    list_of_subdirs = [] 
     list_of_files = []
     i = 0
     map_word_to_index = {}
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     
     columns = len(oles)
     rows = len(list_of_files) 
-    features = np.zeros((rows,columns))
+    X = np.zeros((rows,columns))
     count = 0
     for each_file in list_of_files:
         #print(each_file)
@@ -56,9 +56,8 @@ if __name__ == "__main__":
         for w in each_file:
             idx = map_word_to_index[w]
             vector[idx] +=1
-        features[count, :] = vector
+        X[count, :] = vector
         count += 1
-    X = features
     svd = TruncatedSVD(n_components=args.dims, n_iter=6, random_state=42)
     dim_red = svd.fit_transform(X)
     y = list_of_subdirs 
@@ -71,11 +70,10 @@ if __name__ == "__main__":
     X_test = pd.DataFrame(X_test)
     
     y_train = pd.DataFrame(y_train)
-    y_train= y_train.assign(train_test= "train") #maybe insert is better
+    y_train= y_train.assign(train_test= "train") 
     y_test = pd.DataFrame(y_test)
     y_test = y_test.assign(train_test= "test")
     X_ttds = pd.concat([X_train, X_test])
-    #X_ttds= X_ttds.rename(columns = {0 : "vector_representation"})
     y_ttds = pd.concat([y_train, y_test])
     y_ttds = y_ttds.rename(columns = {0 : "author"})
     
@@ -89,8 +87,7 @@ if __name__ == "__main__":
     final_table.insert(1, col0.name, col0)
     
     print("Writing to {}...".format(args.outputfile))
-    final_table.to_csv(args.outputfile)
 
 
-    print("Done!")
-
+    with open(args.outputfile, "w+") as thefile:
+        final_table.to_csv(thefile, index=False)
