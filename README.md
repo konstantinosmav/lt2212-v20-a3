@@ -2,6 +2,7 @@
 
 
 PART 1
+
 Regarding tokenization, I lowercased all words and filtered out the numerical values and punctuation leaving only alphabetical characters. 
 To call a3_features.py, you need to pass the following arguments:
 1)	The folder to where the text files are: this can either be a full path(e.g. /home/gusmavko@GU.GU.SE/lt2212-v20-a3-master/enron_sample) or just the folder name if the script and the data are in the same directory(enron_sample).
@@ -13,6 +14,7 @@ python3 a3_features.py /home/gusmavko@GU.GU.SE/lt2212-v20-a3-master/enron_sample
 
 
 PART 2-3
+
 Sampling data: 
 For sampling, I used .drop() to get the vector representation of the texts and .iloc() to get the train and test labels. After that, I choose randomly an index to get the vector representation of one text. Then, I also choose randomly another text that has an equal probability (50%) of having either the same (1) or a different label (0) than the first text. The same process if followed for both the training and the testing of the Neural Network. In the testing part, I used classification_report from sklearn.metrics to evaluate the model.
 I used BCE as criterion since we had to do binary classification. For optimizer, I chose Adam since with Adam the performance of the learning rate is less sensitive than the learning rate with SGD.
